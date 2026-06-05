@@ -32,13 +32,25 @@ TEAMS_DATA = {
     "Media": {"name": "📱 የማህበራዊ ሚዲያ ህብረት", "desc": "ፎቶ፣ ቪዲዮ እና የዲጂታል ሚዲያ አገልግሎት።"}
 }
 
-# --- DB & State ---
+# --- DB Setup ---
 def init_db():
     conn = sqlite3.connect("duevasue.db")
     cursor = conn.cursor()
-    cursor.execute('CREATE TABLE IF NOT EXISTS students (chat_id INTEGER PRIMARY KEY, full_name TEXT, sex TEXT, phone TEXT, department TEXT, year TEXT, campus TEXT)')
+    cursor.execute('''CREATE TABLE IF NOT EXISTS students 
+                      (chat_id INTEGER PRIMARY KEY, full_name TEXT, sex TEXT, phone TEXT, department TEXT, year TEXT, campus TEXT)''')
     conn.commit()
     conn.close()
+
+# --- Web Server for Render ---
+async def handle_render(request):
+    return web.Response(text="DUEVASUE Bot Running!")
+
+async def start_web_server():
+    app = web.Application()
+    app.router.add_get('/', handle_render)
+    runner = web.AppRunner(app)
+    await runner.setup()
+    await web.TCPSite(runner, '0.0.0.0', int(os.environ.get("PORT", 8080))).start()
 
 class Registration(StatesGroup):
     name = State()
@@ -64,44 +76,14 @@ def get_back_kb():
 # --- Handlers ---
 @dp.message(Command("start"))
 async def start_command(message: Message):
-    text = ("እንኳን ወደ ዲላ ዩኒቨርሲቲ ወንጌላውያን ክርስቲያን ተማሪዎች ህብረት (ECSF/DUEVASUE) ቦት በደህና መጡ! ✨\n\n"
-            "“እግዚአብሔርን ፈልጉት ትጸናላችሁም፤ ሁልጊዜ ፊቱን ፈልጉ።” — መዝሙር 105፥4\n\n"
-            "Fellowship ለኛ ምንጊዜም 🏠 ቤታችን ነው!")
+    text = ("እንኳን ወደ ዲላ ዩኒቨርሲቲ ወንጌላውያን ክርስቲያን ተማሪዎች ህብረት ቦት በደህና መጡ! ✨\n\n"
+            "“እግዚአብሔርን ፈልጉት ትጸናላችሁም፤ ሁልጊዜ ፊቱን ፈልጉ።” — መዝሙር 105፥4")
     await message.answer(text, reply_markup=get_main_menu())
 
 @dp.callback_query(F.data == "go_home")
 async def go_home(callback: CallbackQuery, state: FSMContext):
     await state.clear()
     await callback.message.edit_text("እባክዎ ከታች ካሉት አማራጮች አንዱን ይምረጡ፦", reply_markup=get_main_menu())
-
-# --- About, Programs, Bible Handlers ---
-@dp.callback_query(F.data == "menu_about")
-async def about_handler(callback: CallbackQuery):
-    await callback.message.edit_text("📌 **ስለ ህብረቱ**\n\nእኛ የዲላ ዩኒቨርሲቲ ወንጌላውያን ተማሪዎች ህብረት ነን።", reply_markup=get_back_kb())
-
-@dp.callback_query(F.data == "menu_programs")
-async def prog_handler(callback: CallbackQuery):
-    await callback.message.edit_text("📅 **ፕሮግራሞች**\n\nየዘወትር እና ልዩ ፕሮግራሞቻችን እዚህ ይዘረዘራሉ።", reply_markup=get_back_kb())
-
-@dp.callback_query(F.data == "menu_bible")
-async def bible_handler(callback: CallbackQuery):
-    await callback.message.edit_text("📖 **Daily Bible Life**\n\nየዕለቱ የቃል ጊዜ።", reply_markup=get_back_kb())
-
-# --- Teams Handler ---
-@dp.callback_query(F.data == "menu_teams")
-async def teams_menu(callback: CallbackQuery):
-    kb = []
-    for code, data in TEAMS_DATA.items():
-        kb.append([InlineKeyboardButton(text=data["name"], callback_data=f"team_{code}")])
-    kb.append([InlineKeyboardButton(text="⬅️ ተመለስ", callback_data="go_home")])
-    await callback.message.edit_text("👥 **የአገልግሎት ክፍሎች**\nአንዱን ይምረጡ፦", reply_markup=InlineKeyboardMarkup(inline_keyboard=kb))
-
-@dp.callback_query(F.data.startswith("team_"))
-async def team_detail(callback: CallbackQuery):
-    code = callback.data.split("_")[1]
-    team = TEAMS_DATA[code]
-    text = f"🔹 **{team['name']}**\n\n{team['desc']}"
-    await callback.message.edit_text(text, reply_markup=InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="⬅️ ተመለስ", callback_data="menu_teams")]]))
 
 # --- Registration Flow ---
 @dp.callback_query(F.data == "menu_register")
@@ -131,9 +113,9 @@ async def proc_dept(msg: Message, state: FSMContext):
 @dp.callback_query(Registration.sex)
 async def proc_sex(callback: CallbackQuery, state: FSMContext):
     await state.update_data(sex=callback.data)
-    await callback.message.edit_text("🎓 ዓመትዎን ይምረጡ (1-5+):", reply_markup=InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text="1", callback_data="y_1"), InlineKeyboardButton(text="2", callback_data="y_2"), InlineKeyboardButton(text="3", callback_data="y_3")],
-        [InlineKeyboardButton(text="4", callback_data="y_4"), InlineKeyboardButton(text="5+", callback_data="y_5")]]))
+    await callback.message.edit_text("🎓 ዓመትዎን ይምረጡ:", reply_markup=InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text="1", callback_data="y_1"), InlineKeyboardButton(text="2", callback_data="y_2")],
+        [InlineKeyboardButton(text="3", callback_data="y_3"), InlineKeyboardButton(text="4", callback_data="y_4"), InlineKeyboardButton(text="5+", callback_data="y_5")]]))
     await state.set_state(Registration.year)
 
 @dp.callback_query(Registration.year)
@@ -146,13 +128,30 @@ async def proc_year(callback: CallbackQuery, state: FSMContext):
 @dp.callback_query(Registration.campus)
 async def proc_campus(callback: CallbackQuery, state: FSMContext):
     user_data = await state.get_data()
-    # Save to DB logic here...
+    chat_id = callback.message.chat.id
+    
+    # 1. Save to DB
+    conn = sqlite3.connect("duevasue.db")
+    cursor = conn.cursor()
+    cursor.execute('INSERT OR REPLACE INTO students VALUES (?,?,?,?,?,?,?)', 
+                   (chat_id, user_data['name'], user_data['sex'], user_data['phone'], user_data['dept'], user_data['year'], callback.data))
+    conn.commit()
+    conn.close()
+
+    # 2. Sync to Google Sheets
+    try:
+        async with aiohttp.ClientSession() as session:
+            payload = {"action": "register", "name": user_data['name'], "phone": user_data['phone'], "campus": callback.data}
+            await session.post(GOOGLE_SCRIPT_URL, json=payload)
+    except: pass
+    
     await callback.message.edit_text("🎉 **ምዝገባው ተጠናቋል!**", reply_markup=get_main_menu())
     await state.clear()
 
 async def main():
     init_db()
     # Web server-ሩን አስነሳ
+    asyncio.create_task(start_web_server())
     await dp.start_polling(bot)
 
 if __name__ == "__main__":
