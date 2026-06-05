@@ -17,7 +17,7 @@ logging.basicConfig(level=logging.INFO)
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
 
-# Web server for Render
+# --- Web Server for Render ---
 async def handle_render(request):
     return web.Response(text="DUEVASUE Bot Running!")
 
@@ -28,6 +28,7 @@ async def start_web_server():
     await runner.setup()
     await web.TCPSite(runner, '0.0.0.0', int(os.environ.get("PORT", 8080))).start()
 
+# --- Database Setup ---
 def init_db():
     conn = sqlite3.connect("duevasue.db")
     cursor = conn.cursor()
@@ -42,9 +43,17 @@ def init_db():
             campus TEXT
         )
     ''')
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS team_registrations (
+            chat_id INTEGER,
+            team_name TEXT,
+            PRIMARY KEY (chat_id, team_name)
+        )
+    ''')
     conn.commit()
     conn.close()
 
+# --- Registration States ---
 class Registration(StatesGroup):
     name = State()
     phone = State()
@@ -53,15 +62,27 @@ class Registration(StatesGroup):
     year = State()
     campus = State()
 
+# --- Keyboards ---
 def get_main_menu():
     return InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text="🔐 የህብረቱ አባል መሆን (Register)", callback_data="menu_register")]
+        [InlineKeyboardButton(text="🔐 የህብረቱ አባል መሆን (Register)", callback_data="menu_register")],
+        [InlineKeyboardButton(text="ℹ️ ስለ ህብረቱ (About)", callback_data="menu_about"), 
+         InlineKeyboardButton(text="👥 የአገልግሎት ክፍሎች (Teams)", callback_data="menu_teams")],
+        [InlineKeyboardButton(text="📖 Daily Bible Life", callback_data="menu_bible"),
+         InlineKeyboardButton(text="📅 ፕሮግራሞች (Programs)", callback_data="menu_programs")]
     ])
 
+# --- Handlers ---
 @dp.message(Command("start"))
 async def start_command(message: Message):
-    await message.answer("እንኳን ወደ ዲላ ዩኒቨርሲቲ ወንጌላውያን ክርስቲያን ተማሪዎች ህብረት ቦት በደህና መጡ!", reply_markup=get_main_menu())
+    await message.answer("እንኳን ወደ ዲላ ዩኒቨርሲቲ ወንጌላውያን ክርስቲያን ተማሪዎች ህብረት ቦት በደህና መጡ! ✨", reply_markup=get_main_menu())
 
+@dp.callback_query(lambda c: c.data == "go_to_main")
+async def back_to_main_handler(callback_query: CallbackQuery, state: FSMContext):
+    await state.clear()
+    await callback_query.message.edit_text(text="እባክዎ ከታች ካሉት አማራጮች አንዱን ይምረጡ፦", reply_markup=get_main_menu())
+
+# --- Registration Flow ---
 @dp.callback_query(lambda c: c.data == "menu_register")
 async def start_registration(callback_query: CallbackQuery, state: FSMContext):
     await callback_query.message.answer("📝 እባክዎ **የመጀመሪያ እና የአባት ስምዎን** ያስገቡ፦")
@@ -119,6 +140,17 @@ async def process_campus(callback_query: CallbackQuery, state: FSMContext):
     user_data = await state.get_data()
     chat_id = callback_query.message.chat.id
     
+    # Save to DB
+    conn = sqlite3.connect("duevasue.db")
+    cursor = conn.cursor()
+    cursor.execute('''
+        INSERT OR REPLACE INTO students (chat_id, full_name, sex, phone, department, year, campus)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+    ''', (chat_id, user_data['full_name'], user_data['sex'], user_data['phone'], user_data['department'], user_data['year'], campus_mapped))
+    conn.commit()
+    conn.close()
+    
+    # Sync to Google Sheets
     try:
         async with aiohttp.ClientSession() as session:
             payload = {
@@ -135,14 +167,30 @@ async def process_campus(callback_query: CallbackQuery, state: FSMContext):
     except Exception as e:
         logging.error(f"Sheet Sync Error: {e}")
     
-    await callback_query.message.edit_text(text="🎉 **ምዝገባዎ በተሳካ ሁኔታ ተጠናቋል!**")
+    # Finish and show Main Menu
+    await callback_query.message.edit_text(text="🎉 **ምዝገባዎ በተሳካ ሁኔታ ተጠናቋል!**\n\nወደ ዋናው ማውጫ ተመልሰዋል:", reply_markup=get_main_menu())
     await state.clear()
+
+# --- Placeholder Menus ---
+@dp.callback_query(lambda c: c.data == "menu_about")
+async def about_handler(callback_query: CallbackQuery):
+    await callback_query.message.edit_text(text="📌 ስለ ህብረቱ መረጃ...", reply_markup=InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="⬅️ ተመለስ", callback_data="go_to_main")]]))
+
+@dp.callback_query(lambda c: c.data == "menu_teams")
+async def teams_handler(callback_query: CallbackQuery):
+    await callback_query.message.edit_text(text="👥 የአገልግሎት ክፍሎች...", reply_markup=InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="⬅️ ተመለስ", callback_data="go_to_main")]]))
+
+@dp.callback_query(lambda c: c.data == "menu_bible")
+async def bible_handler(callback_query: CallbackQuery):
+    await callback_query.message.edit_text(text="📖 Daily Bible Life...", reply_markup=InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="⬅️ ተመለስ", callback_data="go_to_main")]]))
+
+@dp.callback_query(lambda c: c.data == "menu_programs")
+async def prog_handler(callback_query: CallbackQuery):
+    await callback_query.message.edit_text(text="📅 ፕሮግራሞች...", reply_markup=InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="⬅️ ተመለስ", callback_data="go_to_main")]]))
 
 async def main():
     init_db()
-    # Web server-ሩን በ Background አስነሳነው
     asyncio.create_task(start_web_server()) 
-    # Bot-ውን በ Polling አስነሳነው
     await dp.start_polling(bot)
 
 if __name__ == "__main__":
