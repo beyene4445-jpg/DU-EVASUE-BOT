@@ -17,6 +17,17 @@ logging.basicConfig(level=logging.INFO)
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
 
+# Web server for Render
+async def handle_render(request):
+    return web.Response(text="DUEVASUE Bot Running!")
+
+async def start_web_server():
+    app = web.Application()
+    app.router.add_get('/', handle_render)
+    runner = web.AppRunner(app)
+    await runner.setup()
+    await web.TCPSite(runner, '0.0.0.0', int(os.environ.get("PORT", 8080))).start()
+
 def init_db():
     conn = sqlite3.connect("duevasue.db")
     cursor = conn.cursor()
@@ -108,7 +119,6 @@ async def process_campus(callback_query: CallbackQuery, state: FSMContext):
     user_data = await state.get_data()
     chat_id = callback_query.message.chat.id
     
-    # 2. Sync to Google Sheets
     try:
         async with aiohttp.ClientSession() as session:
             payload = {
@@ -130,6 +140,9 @@ async def process_campus(callback_query: CallbackQuery, state: FSMContext):
 
 async def main():
     init_db()
+    # Web server-ሩን በ Background አስነሳነው
+    asyncio.create_task(start_web_server()) 
+    # Bot-ውን በ Polling አስነሳነው
     await dp.start_polling(bot)
 
 if __name__ == "__main__":
