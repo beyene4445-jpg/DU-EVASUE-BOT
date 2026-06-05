@@ -12,13 +12,8 @@ from aiohttp import web
 
 BOT_TOKEN = "8344884558:AAGnQyxzYUnKJYgaT-gQQ2Twv6xzr8wLGnA"
 ADMIN_CHAT_ID = 6120164042
-# እዚህ ጋር ያገኘኸውን የ Google Web App URL አስገባ
-# አሮጌው (ይህን አጥፋው)
-# GOOGLE_SCRIPT_URL = "YOUR_GOOGLE_SCRIPT_URL_HERE" 
-
-# አዲሱ (ይህንን ለጥፍበት)
+# የተስተካከለው ሊንክ እዚህ ጋር ገብቷል
 GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxLy09Ie2igKzBhN6kPnYYHTO4QN2Si2AM3jRvFAgbjced91CepsdJdkGMEQv4uuQF9Yg/exec"
-" 
 
 logging.basicConfig(level=logging.INFO)
 bot = Bot(token=BOT_TOKEN)
