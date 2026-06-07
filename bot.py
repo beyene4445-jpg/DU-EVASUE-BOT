@@ -12,6 +12,7 @@ from aiohttp import web
 
 # --- CONFIGURATION ---
 BOT_TOKEN = "8344884558:AAGnQyxzYUnKJYgaT-gQQ2Twv6xzr8wLGnA"
+ADMIN_CHAT_ID = "6120164042"
 GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxLy09Ie2igKzBhN6kPnYYHTO4QN2Si2AM3jRvFAgbjced91CepsdJdkGMEQv4uuQF9Yg/exec"
 
 logging.basicConfig(level=logging.INFO)
@@ -41,12 +42,8 @@ def init_db():
     conn.commit()
     conn.close()
 
-async def handle_render(request):
-    return web.Response(text="DUEVASUE Bot is running!")
-
 async def start_web_server():
     app = web.Application()
-    app.router.add_get('/', handle_render)
     runner = web.AppRunner(app)
     await runner.setup()
     await web.TCPSite(runner, '0.0.0.0', int(os.environ.get("PORT", 8080))).start()
@@ -78,7 +75,6 @@ async def go_home(callback: CallbackQuery, state: FSMContext):
     await state.clear()
     await callback.message.edit_text("እባክዎ ከታች ካሉት አማራጮች አንዱን ይምረጡ፦", reply_markup=get_main_menu())
 
-# --- TEAMS HANDLERS ---
 @dp.callback_query(F.data == "menu_teams")
 async def show_teams(callback: CallbackQuery):
     kb = [[InlineKeyboardButton(text=data["name"], callback_data=f"view_{code}")] for code, data in TEAMS_DATA.items()]
@@ -105,74 +101,4 @@ async def join_team(callback: CallbackQuery, state: FSMContext):
         await callback.message.edit_text("ቲሙን ለመቀላቀል በመጀመሪያ መመዝገብ አለብዎት።\n\n📝 እባክዎ **የመጀመሪያ እና የአባት ስምዎን** ያስገቡ፦")
         await state.set_state(Registration.name)
     else:
-        # Update team if already registered
-        conn = sqlite3.connect("duevasue.db")
-        conn.execute('UPDATE students SET team = ? WHERE chat_id = ?', (TEAMS_DATA[team_code]["name"], chat_id))
-        conn.commit()
-        conn.close()
-        await callback.message.edit_text(f"✅ እንኳን ደስ አለዎት! በ**{TEAMS_DATA[team_code]['name']}** ተመዝግበዋል።", reply_markup=get_main_menu())
-
-# --- REGISTRATION HANDLERS ---
-@dp.callback_query(F.data == "menu_register")
-async def start_reg(callback: CallbackQuery, state: FSMContext):
-    await callback.message.edit_text("📝 **የስም መመዝገቢያ**\nእባክዎ ስምዎን ያስገቡ፦")
-    await state.set_state(Registration.name)
-
-@dp.message(Registration.name)
-async def proc_name(msg: Message, state: FSMContext):
-    await state.update_data(name=msg.text)
-    await msg.answer("📱 የስልክ ቁጥር ያስገቡ፦")
-    await state.set_state(Registration.phone)
-
-@dp.message(Registration.phone)
-async def proc_phone(msg: Message, state: FSMContext):
-    await state.update_data(phone=msg.text)
-    await msg.answer("🏢 ዲፓርትመንት ያስገቡ፦")
-    await state.set_state(Registration.dept)
-
-@dp.message(Registration.dept)
-async def proc_dept(msg: Message, state: FSMContext):
-    await state.update_data(dept=msg.text)
-    await msg.answer("⚧ ጾታዎን ይምረጡ፦", reply_markup=InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="ወንድ", callback_data="sex_m"), InlineKeyboardButton(text="ሴት", callback_data="sex_f")]]))
-    await state.set_state(Registration.sex)
-
-@dp.callback_query(Registration.sex)
-async def proc_sex(callback: CallbackQuery, state: FSMContext):
-    await state.update_data(sex=callback.data)
-    await callback.message.edit_text("🎓 ዓመትዎን ይምረጡ (1-5+):", reply_markup=InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="1", callback_data="yr_1"), InlineKeyboardButton(text="2", callback_data="yr_2")], [InlineKeyboardButton(text="3", callback_data="yr_3"), InlineKeyboardButton(text="4", callback_data="yr_4")], [InlineKeyboardButton(text="5+", callback_data="yr_5")]]))
-    await state.set_state(Registration.year)
-
-@dp.callback_query(Registration.year)
-async def proc_year(callback: CallbackQuery, state: FSMContext):
-    await state.update_data(year=callback.data)
-    await callback.message.edit_text("📍 ካምፓስ ይምረጡ:", reply_markup=InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="Main", callback_data="camp_Main"), InlineKeyboardButton(text="Semera", callback_data="camp_Semera")]]))
-    await state.set_state(Registration.campus)
-
-@dp.callback_query(Registration.campus)
-async def proc_campus(callback: CallbackQuery, state: FSMContext):
-    user_data = await state.get_data()
-    team_name = TEAMS_DATA.get(user_data.get("chosen_team"), {}).get("name", "ምንም")
-    
-    conn = sqlite3.connect("duevasue.db")
-    cursor = conn.cursor()
-    cursor.execute('INSERT OR REPLACE INTO students VALUES (?,?,?,?,?,?,?,?)', 
-                   (callback.message.chat.id, user_data['name'], user_data['sex'], user_data['phone'], user_data['dept'], user_data['year'], callback.data, team_name))
-    conn.commit()
-    conn.close()
-
-    # Sync to Sheet
-    try:
-        async with aiohttp.ClientSession() as session:
-            await session.post(GOOGLE_SCRIPT_URL, json={"name": user_data['name'], "team": team_name})
-    except: pass
-    
-    await callback.message.edit_text(f"🎉 **ምዝገባው ተጠናቋል!**\n\nቲም፦ {team_name}", reply_markup=get_main_menu())
-    await state.clear()
-
-async def main():
-    init_db()
-    asyncio.create_task(start_web_server())
-    await dp.start_polling(bot)
-
-if __name__ == "__main__":
-    asyncio.run(main())
+        conn = sqlite
