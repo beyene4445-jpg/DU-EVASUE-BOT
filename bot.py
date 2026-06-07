@@ -19,17 +19,17 @@ dp = Dispatcher()
 
 # --- TEAMS DATA ---
 TEAMS_DATA = {
-    "Prayer": {"name": "🙏 የጸሎት ቡድን", "desc": "የጸሎት መርሃግብሮችን በማዘጋጀት ሌሎችን ለጸሎት የማስተባበር አገልግሎት።\n📅 ሰኞ 11:00 - 1:30"},
-    "Counseling": {"name": "🧠 የማማከር አገልግሎት", "desc": "መንፈሳዊ፣ ማህበራዊ እና ትምህርታዊ የምክክር አገልግሎት።\n📅 ሰኞ 11:00 - 1:30"},
-    "Teaching": {"name": "📖 ትምህርት እና ስልጠና", "desc": "መንፈሳዊ ስልጠና እና የመጽሐፍ ቅዱስ ቡድኖችን ማደራጀት።\n📅 ማክሰኞ 11:00 - 1:30"},
-    "Evan": {"name": "🔥 EVAN Mobilizer", "desc": "ወንጌልን መመስከር፣ Outreach እና MiniMission ማከናወን።\n📅 ማክሰኞ 11:00 - 1:30"},
-    "Worship": {"name": "🎵 የአምልኮ ቡድን", "desc": "በመዝሙር የአምልኮ ፕሮግራሞችን መምራት።\n📅 ማክሰኞ 11:00 - 1:30"},
-    "Love": {"name": "🤝 ፍቅርና የርህራሄ አገልግሎት", "desc": "ለተቸገሩ ድጋፍ ማድረግ፣ የደም ልገሳ እና የሆስፒታል ጉብኝት።\n📅 እሮብ 11:00 - 1:30"},
-    "Art": {"name": "🎭 ድራማ እና ስነጽሁፍ", "desc": "መንፈሳዊ ድራማ፣ ግጥም እና ትረካዎችን ማዘጋጀት።\n📅 እሮብ 11:00 - 1:30"},
-    "Fund": {"name": "💰 FUNDRAISING", "desc": "ለወንጌል ሥራ የሚሆን ገቢ ማሰባሰብ።\n📅 ሰኞ 11:00 - 1:30"},
-    "Natanim": {"name": "🧹 መስተንግዶ /ናታኒም/", "desc": "ሰዎችን ማስተናገድ፣ መባ መሰብሰብ እና ንብረት መጠበቅ።\n📅 ቅዳሜ 11:00 - 1:30"},
-    "Choir": {"name": "🎤 የመዘምራን ቡድን", "desc": "አዳዲስ ዝማሬዎችን ማዘጋጀት።\n📅 ቅዳሜ 11:00 - 1:30"},
-    "Media": {"name": "📱 የማህበራዊ ሚዲያ", "desc": "ፎቶ፣ ቪዲዮ እና የዲጂታል ሚዲያ አገልግሎት።"}
+    "Prayer": {"name": "🙏 የጸሎት ቡድን", "desc": "ይህ የጸሎት ቲም በፌሎሺፓችን ስለ ግል ህይወታችን፣ ስለ ሌሎች፣ ስለ ህብረታችን፣ ስለ ሀገራችን... ወዘተ የሚጸለይበት እንዲሁም የተለያዩ የጸሎት መርሃግብሮችን በማዘጋጀት ሌሎችን ለጸሎት የማስተባበርን አገልግሎት ያከናውናል።\n📅 የቲም ቀን ዘወትር ሰኞ ከ 11:00-1:30"},
+    "Counseling": {"name": "🧠 የማማከር አገልግሎት", "desc": "ይህ ቲም ክርስቲያን ተማሪዎችን በመንፈሳዊ፣ በማህበራዊ፣ በሥነ-ልቦናዊ እና ትምህርታዊ ጉዳዮች ዙሪያ የምክክር አገልግሎት የፈጽማል፣ ይጸልያል፣ ይከታተላል።\n📅 የቲም ቀን ዘወትር ሰኞ 11:00-1:30."},
+    "Teaching": {"name": "📖 ትምህርት እና ስልጠና", "desc": "ይህ ቲም ተማሪዎች በመንፈሳዊ ሕይወት እንዲያድጉ አስፈላጊዉን ትምህርት እና ስልጠና ያዘጋጃል፣ ይሰጣል። በሕብረቱ ውስጥ ያሉትን የመጽሐፍ ቅዱስ ቡድኖች ያደራጃል፣ በጥናት ወቅትም ይከታተላል።\n📅 የቲም ቀን ዘወትር ማክሰኞ 11:00-1:30."},
+    "Evan": {"name": "🔥 EVAN Mobilizer", "desc": "ይህ ቲም ዋና ትኩረቱን የወንጌል ምስክርነት ላይ በማድረግ ግቢ ወስጥ ላሉ ላልዳኑ ነፍሳት ወንጌልን መመስከር፣ ሌሎችን ለወንጌል ምስክርነት ማነሳሳት፣ በየጊዜው ከግቢ ውጭ ባሉ አካባቢዎች የወንጌል ስርጭት ያከናውናል።\n📅 የቲም ቀን ማክሰኞ 11:00-1:30."},
+    "Worship": {"name": "🎵 የአምልኮ ቡድን", "desc": "ሕብረቱ ባሉት የአምልኮ ፕሮግራሞች ላይ በመዝሙር የአምልኮ ፕሮግራሙን ይመራል። አዳዲስ መዝሙሮችን ይለቃል።\n📅 የቲም ቀን ማክሰኞ 11:00-1:30."},
+    "Love": {"name": "🤝 ፍቅርና የርህራሄ አገልግሎት", "desc": "ይህ ህብረት በተለያዩ ጉዳዮች ቁሳዊ እንዲሁም ስነልቦናዊ ድጋፍ ለሚያስፈልጋቸው ተማሪዎች የድጋፍ አገልግሎትን ይሰጣል። በሆስፒታሎች እና ማረሚያ ቤቶች ይጎበኛል።\n📅 የቲም ቀን ዘውትር እሮብ 11:00-1:30."},
+    "Art": {"name": "🎭 ድራማ እና ስነጽሁፍ", "desc": "ይህ ህብረት መንፈሳዊ እና መጽሐፍ ቅዱሳዊ ይዘት ያላቸው ድራማ እና ፊልም፣ ግጥም፣ ትረካ እና ምሳሌዎችን ያዘጋጃል፣ በተለያዩ ልዩ ፕሮግራሞች ላይ ያቀርባል።\n📅 የቲም ቀን ዘውትር እሮብ 11:00-1:30."},
+    "Fund": {"name": "💰 FUNDRAISING", "desc": "ለሕብረቱ ገቢ ለማስገኘት ማንኛውንም አግባብ ያለው የፈጠራ ክህሎት በመጠቀም ለወንጌል ሥራ የሚሆን ገቢ ያሰባስባል።\n📅 የቲም ቀን ሰኞ 11፡00 - 1:30"},
+    "Natanim": {"name": "🧹 መስተንግዶ /ናታኒም/", "desc": "ሰዎችን ማስተናገድ፣ መባ መሰብሰብ፣ ስጦታዎችን መቀበል፣ የፅዳት ተግባራትን ማከናወን እና የሕብረቱን ንብረት በኃላፊነት መጠበቅ።\n📅 የቲም ቀን ቅዳሜ 11:00-1:30."},
+    "Choir": {"name": "🎤 የመዘምራን ቡድን", "desc": "አዳዲስ ዝማሬዎችን በማዘጋጀት ለሕብረቱ ፕሮግራም ያቀርባሉ። የጸሎት እና የልምምድ ጊዜ አላቸው።\n📅 የቲም ቀን ቅዳሜ 11:00-1:30."},
+    "Media": {"name": "📱 የማህበራዊ ሚዲያ", "desc": "ስለ ፌሎሺፕ የተለያዩ ፕሮግራሞችን መስራት፣ ፎቶ እና ቪዲዮ በማንሳት ማስታወሻ መያዝ፣ ወንጌልን በማህበራዊ ሚዲያ ማድረስ።"}
 }
 
 # --- FOOTER TEXT ---
@@ -51,7 +51,7 @@ class Registration(StatesGroup):
     sex = State()
     year = State()
     campus = State()
-    team = State() # አዲስ ሁኔታ ለቲም ምርጫ
+    team = State()
 
 # --- MENU LAYOUT ---
 def get_main_menu():
@@ -86,10 +86,11 @@ async def show_profile(callback: CallbackQuery):
     conn.close()
 
     if user:
+        gender_display = "ወንድ" if user[2] == "sex_m" else "ሴት"
         profile_text = (
             f"👤 **የእርስዎ መረጃ**\n\n"
             f"ስም: {user[1]}\n"
-            f"ጾታ: {user[2]}\n"
+            f"ጾታ: {gender_display}\n"
             f"ስልክ: {user[3]}\n"
             f"ዲፓርትመንት: {user[4]}\n"
             f"ዓመት: {user[5]}\n"
@@ -101,19 +102,71 @@ async def show_profile(callback: CallbackQuery):
     else:
         await callback.message.edit_text(f"እርስዎ ገና አልተመዘገቡም።\n\nእባክዎ በመጀመሪያ ይመዝገቡ። {FOOTER_TEXT}", reply_markup=InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="📝 ለመመዝገብ", callback_data="menu_register")], [InlineKeyboardButton(text="⬅️ ተመለስ", callback_data="go_home")]]), parse_mode="Markdown")
 
-# --- OTHER MENUS ---
+# --- BIBLE LIFE HANDLER ---
 @dp.callback_query(F.data == "menu_bible")
 async def show_bible(callback: CallbackQuery):
-    await callback.message.edit_text(f"📖 **Daily Bible Life**\n\nዕለታዊ የመጽሐፍ ቅዱስ ንባብ እና ማሰላሰያ ፕሮግራሞችን እዚህ ያገኛሉ።{FOOTER_TEXT}", reply_markup=InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="⬅️ ተመለስ", callback_data="go_home")]]), parse_mode="Markdown")
+    await callback.message.edit_text(
+        "📖 **Daily Bible Life**\n\nዛሬ መጽሐፍ ቅዱስ አንብበሃል?",
+        reply_markup=InlineKeyboardMarkup(inline_keyboard=[
+            [InlineKeyboardButton(text="✅ አዎ", callback_data="bible_yes"), InlineKeyboardButton(text="❌ አይ", callback_data="bible_no")],
+            [InlineKeyboardButton(text="⬅️ ተመለስ", callback_data="go_home")]
+        ]), parse_mode="Markdown")
 
+@dp.callback_query(F.data.startswith("bible_"))
+async def bible_response(callback: CallbackQuery):
+    if callback.data == "bible_yes":
+        msg = "አሜን! እግዚአብሔር ይባርክህ። ቃሉን ማሰላሰልህ ህይወትህ እንዲታደስ ያደርጋል።\n\n“እግዚአብሔርን ፈልጉት ትጸናላችሁም፤ ሁልጊዜ ፊቱን ፈልጉ።” — መዝሙር 105፥4"
+    else:
+        msg = "አይዞህ፣ አሁኑኑ ተነሳና ትንሽ ቃል አንብብ። የጌታ ቃል ለህይወትህ የሚያስፈልገውን ብርሃን ይሰጥሃል።\n\nየዛሬው ምክር፦ 'ጊዜ የለኝም አትበል፣ ለጌታ ቃል ጊዜ ስጠው።'"
+    await callback.message.edit_text(f"{msg}{FOOTER_TEXT}", reply_markup=InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="⬅️ ተመለስ", callback_data="go_home")]]), parse_mode="Markdown")
+
+# --- ABOUT HANDLER (UPDATED WITH IMAGE CONTENT) ---
 @dp.callback_query(F.data == "menu_about")
 async def show_about(callback: CallbackQuery):
-    await callback.message.edit_text(f"ℹ️ **About Us**\n\nዲላ ዩኒቨርሲቲ ወንጌላውያን ክርስቲያን ተማሪዎች ህብረት (DUEVASUE)።{FOOTER_TEXT}", reply_markup=InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="⬅️ ተመለስ", callback_data="go_home")]]), parse_mode="Markdown")
+    about_text = (
+        "ℹ️ **ስለ እኛ (About Us)**\n\n"
+        "**ዲላ ዩኒቨርሲቲ ወንጌላውያን ክርስቲያን ተማሪዎች ህብረት (DUEVASUE)**\n\n"
+        "✨ *ምንነታችን*\n"
+        "እስከ ክርስቶስ ፍጹምነት ድረስ የምናድግ፣ የተጠራንበትን አገልግሎት በታማኝነት የምናገለግል፣ በህብረት የምንኖር የዲላ ዩኒቨርሲቲ ወንጌላውያን ክርስቲያን ተማሪዎች ህብረት ነን።\n\n"
+        "🎯 *ተቀዳሚ ዓላማዎቻችን (Aims)*\n"
+        "1. ተማሪዎችን በማገልገል የእግዚአብሔርን መንግስት ማጽናት (Evangelism)\n"
+        "2. የህብረቱን አባላት በደቀመዝሙርነት ትምህርት ማዳበር (Discipleship)\n"
+        "3. በክርስቶስ እምነት የጸኑ ተማሪዎችን በአገልግሎት በመጠቀም ክብሩን መግለጽ\n"
+        "4. ተማሪዎች በትምህርታቸው ጥሩ ውጤት በማምጣት እግዚአብሔርን እንዲያስከብሩ ድጋፍ ማድረግ\n"
+        "5. የቤተክርስቲያን እና የሀገር መሪዎችን ማፍራት (Leadership Development)\n\n"
+        "💎 *እሴቶቻችን (Values)*\n"
+        "1. በቃለ እግዚአብሔር መጽናት\n"
+        "2. ትኩረታችን ተማሪዎች ናቸው\n"
+        "3. የቤተ እምነት፣ የቋንቋ እና የኢኮኖሚ ልዩነትን መሻገር\n\n"
+        "🚀 *ግቦቻችን (Goals)*\n"
+        "• ክርስቲያን ተማሪዎች በቃለ እግዚአብሔር የዳበሩ እና የጸኑ እንዲሆኑ ማድረግ\n"
+        "• በተግባር የታገዘ፣ በመልካም ምግባር የተዋቀረ እና በእውቀት የዳበረ ተማሪዎችን ማፍራት\n\n"
+        "“እግዚአብሔርን ፈልጉት ትጸናላችሁም፤ ሁልጊዜ ፊቱን ፈልጉ።” — መዝሙር 105፥4\n\n"
+        "🤝 [YouTube](http://www.youtube.com/@Dumeleketmedia)\n"
+        "🤝 [Telegram](https://t.me/meleketmedia)\n"
+        "🤝 [Instagram](https://www.instagram.com/du_evasue_fellowship)\n"
+        f"{FOOTER_TEXT}"
+    )
+    await callback.message.edit_text(about_text, reply_markup=InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="⬅️ ተመለስ", callback_data="go_home")]]), parse_mode="Markdown", disable_web_page_preview=True)
 
+# --- PROGRAM HANDLER ---
 @dp.callback_query(F.data == "menu_program")
 async def show_program(callback: CallbackQuery):
-    await callback.message.edit_text(f"📅 **Program & Support**\n\nየህብረታችን ሳምንታዊ መርሃግብሮች እና የድጋፍ አገልግሎቶች።{FOOTER_TEXT}", reply_markup=InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="⬅️ ተመለስ", callback_data="go_home")]]), parse_mode="Markdown")
+    prog_text = (
+        "📅 **Program & Support**\n\n"
+        "የህብረታችን ሳምንታዊ ዋና ፕሮግራም፦\n"
+        "የአምልኮ እና የቃል ጊዜ፦ *ዘወትር ዓርብ ከ 11:00 - 2:00*\n\n"
+        "ለድጋፍ እና ለልገሳ፦\n"
+        "ባንክ፦ ንግድ ባንክ (CBE)\n"
+        "አካውንት፦ 1000703058993 (Fikadu)\n\n"
+        f"{FOOTER_TEXT}"
+    )
+    await callback.message.edit_text(prog_text, reply_markup=InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text="💡 ሀሳብ/ምክር ይስጡ", url="https://t.me/your_admin_id_here")], 
+        [InlineKeyboardButton(text="⬅️ ተመለስ", callback_data="go_home")]
+    ]), parse_mode="Markdown")
 
+# --- TEAMS HANDLER ---
 @dp.callback_query(F.data == "menu_teams")
 async def show_teams(callback: CallbackQuery):
     kb = [[InlineKeyboardButton(text=data["name"], callback_data=f"view_{code}")] for code, data in TEAMS_DATA.items()]
@@ -127,6 +180,7 @@ async def view_team(callback: CallbackQuery):
     kb = [[InlineKeyboardButton(text="✅ ይህንን ቲም ተቀላቀል", callback_data=f"join_{code}")], [InlineKeyboardButton(text="⬅️ ተመለስ", callback_data="menu_teams")]]
     await callback.message.edit_text(f"🔹 **{team['name']}**\n\n{team['desc']}{FOOTER_TEXT}", reply_markup=InlineKeyboardMarkup(inline_keyboard=kb), parse_mode="Markdown")
 
+# --- JOIN TEAM LOGIC ---
 @dp.callback_query(F.data.startswith("join_"))
 async def join_team(callback: CallbackQuery, state: FSMContext):
     team_code = callback.data.split("_")[1]
@@ -146,7 +200,7 @@ async def join_team(callback: CallbackQuery, state: FSMContext):
         conn.close()
         await callback.message.edit_text(f"✅ እንኳን ደስ አለዎት! በ**{TEAMS_DATA[team_code]['name']}** ተመዝግበዋል።{FOOTER_TEXT}", reply_markup=get_main_menu(), parse_mode="Markdown")
 
-# --- REGISTRATION HANDLERS ---
+# --- REGISTRATION ---
 @dp.callback_query(F.data == "menu_register")
 async def start_reg(callback: CallbackQuery, state: FSMContext):
     await callback.message.edit_text("📝 **የስም መመዝገቢያ**\nእባክዎ ስምዎን ያስገቡ፦")
@@ -185,7 +239,6 @@ async def proc_year(callback: CallbackQuery, state: FSMContext):
 @dp.callback_query(Registration.campus)
 async def proc_campus(callback: CallbackQuery, state: FSMContext):
     await state.update_data(campus=callback.data.split("_")[1])
-    # ቲም መምረጫ
     kb = [[InlineKeyboardButton(text=data["name"], callback_data=f"sel_{code}")] for code, data in TEAMS_DATA.items()]
     await callback.message.edit_text("💡 ለመመዝገብ የመጨረሻው እርምጃ! እባክዎ የሚፈልጉትን የአገልግሎት ቡድን ይምረጡ:", reply_markup=InlineKeyboardMarkup(inline_keyboard=kb))
     await state.set_state(Registration.team)
@@ -195,6 +248,8 @@ async def proc_team(callback: CallbackQuery, state: FSMContext):
     user_data = await state.get_data()
     team_code = callback.data.split("_")[1]
     team_name = TEAMS_DATA[team_code]["name"]
+    
+    gender_display = "ወንድ" if user_data['sex'] == "sex_m" else "ሴት"
     
     conn = sqlite3.connect("duevasue.db")
     cursor = conn.cursor()
@@ -206,7 +261,7 @@ async def proc_team(callback: CallbackQuery, state: FSMContext):
     admin_message = (
         f"🔔 **አዲስ የተመዘገበ ተማሪ**\n\n"
         f"👤 ስም: {user_data['name']}\n"
-        f"⚧ ጾታ: {user_data['sex']}\n"
+        f"⚧ ጾታ: {gender_display}\n"
         f"📱 ስልክ: {user_data['phone']}\n"
         f"🏢 ዲፓርትመንት: {user_data['dept']}\n"
         f"🎓 ዓመት: {user_data['year']}\n"
