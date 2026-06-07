@@ -8,7 +8,7 @@ from aiogram.fsm.state import State, StatesGroup
 from aiogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 
 # --- CONFIGURATION ---
-BOT_TOKEN = "8344884558:AAHWiFyF6fmMzL_pDXm4q109wkxaQug3CTk"
+BOT_TOKEN = "8344884558:AAEUR_FkFjnAF5AHdCfptH3UWaZYumshlyU"
 ADMIN_CHAT_ID = "6120164042"
 
 logging.basicConfig(level=logging.INFO)
