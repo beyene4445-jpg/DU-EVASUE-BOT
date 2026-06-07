@@ -1,4 +1,3 @@
-import os
 import logging
 import sqlite3
 import asyncio
@@ -7,10 +6,9 @@ from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
-from aiohttp import web
 
 # --- CONFIGURATION ---
-BOT_TOKEN = "8344884558:AAGnQyxzYUnKJYgaT-gQQ2Twv6xzr8wLGnA"
+BOT_TOKEN = "8344884558:AAHWiFyF6fmMzL_pDXm4q109wkxaQug3CTk"
 ADMIN_CHAT_ID = "6120164042"
 
 logging.basicConfig(level=logging.INFO)
@@ -120,7 +118,7 @@ async def bible_response(callback: CallbackQuery):
         msg = "አይዞህ፣ አሁኑኑ ተነሳና ትንሽ ቃል አንብብ። የጌታ ቃል ለህይወትህ የሚያስፈልገውን ብርሃን ይሰጥሃል።\n\nየዛሬው ምክር፦ 'ጊዜ የለኝም አትበል፣ ለጌታ ቃል ጊዜ ስጠው።'"
     await callback.message.edit_text(f"{msg}{FOOTER_TEXT}", reply_markup=InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="⬅️ ተመለስ", callback_data="go_home")]]), parse_mode="Markdown")
 
-# --- ABOUT HANDLER (UPDATED WITH IMAGE CONTENT) ---
+# --- ABOUT HANDLER ---
 @dp.callback_query(F.data == "menu_about")
 async def show_about(callback: CallbackQuery):
     about_text = (
@@ -138,13 +136,7 @@ async def show_about(callback: CallbackQuery):
         "1. በቃለ እግዚአብሔር መጽናት\n"
         "2. ትኩረታችን ተማሪዎች ናቸው\n"
         "3. የቤተ እምነት፣ የቋንቋ እና የኢኮኖሚ ልዩነትን መሻገር\n\n"
-        "🚀 *ግቦቻችን (Goals)*\n"
-        "• ክርስቲያን ተማሪዎች በቃለ እግዚአብሔር የዳበሩ እና የጸኑ እንዲሆኑ ማድረግ\n"
-        "• በተግባር የታገዘ፣ በመልካም ምግባር የተዋቀረ እና በእውቀት የዳበረ ተማሪዎችን ማፍራት\n\n"
         "“እግዚአብሔርን ፈልጉት ትጸናላችሁም፤ ሁልጊዜ ፊቱን ፈልጉ።” — መዝሙር 105፥4\n\n"
-        "🤝 [YouTube](http://www.youtube.com/@Dumeleketmedia)\n"
-        "🤝 [Telegram](https://t.me/meleketmedia)\n"
-        "🤝 [Instagram](https://www.instagram.com/du_evasue_fellowship)\n"
         f"{FOOTER_TEXT}"
     )
     await callback.message.edit_text(about_text, reply_markup=InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="⬅️ ተመለስ", callback_data="go_home")]]), parse_mode="Markdown", disable_web_page_preview=True)
@@ -162,7 +154,6 @@ async def show_program(callback: CallbackQuery):
         f"{FOOTER_TEXT}"
     )
     await callback.message.edit_text(prog_text, reply_markup=InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text="💡 ሀሳብ/ምክር ይስጡ", url="https://t.me/your_admin_id_here")], 
         [InlineKeyboardButton(text="⬅️ ተመለስ", callback_data="go_home")]
     ]), parse_mode="Markdown")
 
